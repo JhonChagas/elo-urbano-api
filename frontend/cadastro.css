@@ -1,0 +1,347 @@
+/* ===========================
+   ELO URBANO — CADASTRO.CSS
+   Compartilhado entre fornecedor e cliente
+=========================== */
+
+:root {
+  --verde-escuro: #1a3d2b;
+  --verde-medio: #2d6a4f;
+  --verde-claro: #52b788;
+  --verde-palido: #f0faf4;
+  --borda: #d4e9dc;
+  --texto: #0f1f18;
+  --texto-suave: #5a7a65;
+  --branco: #ffffff;
+  --fundo-suave: #f8fbf9;
+  --erro: #dc2626;
+  --erro-bg: #fee2e2;
+  --fonte-titulo: 'Fraunces', Georgia, serif;
+  --fonte-corpo: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--fonte-corpo); color: var(--texto); background: var(--fundo-suave); line-height: 1.6; }
+h1, h2, h3 { font-family: var(--fonte-titulo); line-height: 1.2; }
+em { font-style: italic; color: var(--verde-medio); }
+a { text-decoration: none; }
+
+/* ===========================
+   NAV
+=========================== */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--borda);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.logo { font-family: var(--fonte-titulo); font-size: 1.4rem; font-weight: 700; color: var(--verde-escuro); }
+.logo span { color: var(--verde-claro); }
+
+.nav-voltar {
+  font-size: 0.88rem; color: var(--texto-suave);
+  transition: color 0.2s;
+}
+.nav-voltar:hover { color: var(--verde-escuro); }
+
+/* ===========================
+   LAYOUT PRINCIPAL
+=========================== */
+.pagina-form {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 100px 24px 60px;
+}
+
+/* ===========================
+   CABEÇALHO DO FORM
+=========================== */
+.form-header {
+  margin-bottom: 40px;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--verde-medio); background: var(--verde-palido);
+  border: 1px solid var(--borda); border-radius: 100px;
+  padding: 5px 14px; margin-bottom: 14px;
+}
+
+.form-header h1 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--verde-escuro);
+  margin-bottom: 10px;
+}
+
+.form-header p {
+  color: var(--texto-suave);
+  font-size: 1rem;
+  max-width: 520px;
+}
+
+/* ===========================
+   BLOCOS DO FORMULÁRIO
+=========================== */
+.form-principal { display: flex; flex-direction: column; gap: 24px; }
+
+.bloco {
+  background: var(--branco);
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.bloco-titulo {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.bloco-icone { font-size: 1.8rem; line-height: 1; margin-top: 2px; }
+
+.bloco-titulo h2 {
+  font-size: 1.2rem;
+  color: var(--verde-escuro);
+  margin-bottom: 2px;
+}
+
+.bloco-titulo p {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+/* ===========================
+   GRID DE CAMPOS
+=========================== */
+.campos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Colunas */
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+
+/* ===========================
+   CAMPOS INDIVIDUAIS
+=========================== */
+.campo { display: flex; flex-direction: column; gap: 5px; }
+
+.campo label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+
+.obrigatorio { color: var(--verde-claro); font-weight: 700; }
+.opcional { font-weight: 400; color: #9ab5a5; font-size: 0.75rem; }
+
+.campo input,
+.campo select,
+.campo textarea {
+  padding: 11px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.9rem;
+  color: var(--texto);
+  background: var(--branco);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-color: var(--verde-claro);
+  box-shadow: 0 0 0 3px rgba(82,183,136,0.15);
+}
+
+.campo input[readonly] {
+  background: var(--fundo-suave);
+  color: var(--texto-suave);
+  cursor: default;
+}
+
+.campo input.invalido { border-color: var(--erro); }
+.campo input.invalido:focus { box-shadow: 0 0 0 3px rgba(220,38,38,0.12); }
+
+/* Campo com botão ao lado */
+.campo-com-botao { display: flex; gap: 8px; }
+.campo-com-botao input { flex: 1; }
+
+.btn-buscar {
+  padding: 11px 16px;
+  background: var(--verde-palido);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--verde-escuro);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-buscar:hover { background: var(--borda); border-color: var(--verde-claro); }
+
+.campo-aviso {
+  font-size: 0.78rem;
+  color: var(--erro);
+  min-height: 16px;
+  display: block;
+}
+
+/* ===========================
+   MINI MAPA
+=========================== */
+.mini-mapa {
+  margin-top: 20px;
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 120px;
+  background: #e8f5ee;
+  background-image:
+    linear-gradient(rgba(82,183,136,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(82,183,136,0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.mapa-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mapa-placeholder span { font-size: 2rem; }
+.mapa-placeholder p { font-size: 0.8rem; color: var(--texto-suave); }
+
+/* ===========================
+   BOTÃO GPS
+=========================== */
+.btn-gps {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--verde-palido);
+  border: 1px dashed var(--verde-claro);
+  border-radius: 8px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--verde-escuro);
+  cursor: pointer;
+  transition: background 0.2s, border-style 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+.btn-gps:hover { background: var(--borda); border-style: solid; }
+.btn-gps.ativo { background: #d1fae5; border-color: #34d399; border-style: solid; color: #065f46; }
+
+/* ===========================
+   AÇÕES DO FORMULÁRIO
+=========================== */
+.form-acoes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-cancelar {
+  padding: 12px 24px;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+.btn-cancelar:hover { color: var(--texto); background: var(--borda); }
+
+.btn-enviar {
+  padding: 13px 32px;
+  background: var(--verde-escuro);
+  color: var(--branco);
+  border: none;
+  border-radius: 100px;
+  font-family: var(--fonte-corpo);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-enviar:hover { background: var(--verde-medio); transform: translateY(-2px); }
+.btn-enviar:disabled { background: #9ab5a5; cursor: not-allowed; transform: none; }
+
+/* ===========================
+   MENSAGEM DE SUCESSO
+=========================== */
+.mensagem-sucesso {
+  display: none;
+  padding: 14px 18px;
+  background: #d1fae5;
+  border: 1px solid #6ee7b7;
+  border-radius: 8px;
+  color: #065f46;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ===========================
+   LINK ALTERNATIVO
+=========================== */
+.link-alternativo {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+.link-alternativo a {
+  color: var(--verde-medio);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.link-alternativo a:hover { color: var(--verde-escuro); }
+
+/* ===========================
+   FOOTER
+=========================== */
+footer {
+  background: var(--verde-escuro);
+  padding: 24px;
+  text-align: center;
+}
+footer p { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+footer strong { color: var(--verde-claro); }
+
+/* ===========================
+   RESPONSIVO
+=========================== */
+@media (max-width: 700px) {
+  #nav { padding: 14px 20px; }
+  .pagina-form { padding: 90px 16px 48px; }
+  .bloco { padding: 20px 16px; }
+
+  /* Em mobile, todos os campos ocupam linha inteira */
+  .campos-grid { grid-template-columns: 1fr 1fr; }
+  .col-1, .col-2, .col-3, .col-4 { grid-column: span 2; }
+
+  .form-acoes { flex-direction: column-reverse; }
+  .btn-enviar { width: 100%; text-align: center; }
+  .btn-cancelar { width: 100%; text-align: center; }
+}

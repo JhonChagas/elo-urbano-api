@@ -1,22 +1,88 @@
-// Envia o formulário de cliente para a API do Elo Urbano.
-// Troque API_URL pelo endereço real da API quando for publicada.
-const API_URL = 'http://localhost:3000/api/clientes';
+const API_URL = ['localhost', '127.0.0.1'].includes(location.hostname)
+  ? 'http://localhost:3000/api/clientes'
+  : 'https://SEU-APP.onrender.com/api/clientes'; // <- troque pelo endereço do Render
 
-const form = document.getElementById('formCliente');
-const msgSucesso = document.getElementById('sucessoCliente');
+const $ = (id) => document.getElementById(id);
+const valor = (id) => $(id).value.trim();
 
-// Cria a área de erro uma única vez, logo antes do botão de enviar
+const form = $('formCliente');
+const msgSucesso = $('sucessoCliente');
+
+// Área de erro geral (criada uma vez, antes dos botões)
 const msgErro = document.createElement('p');
 msgErro.className = 'campo-aviso';
 msgErro.style.cssText = 'text-align:center;margin-top:8px;';
 form.querySelector('.form-acoes').before(msgErro);
 
+// ---------- Ano no rodapé ----------
+$('year').textContent = new Date().getFullYear();
+
+// ---------- Mostrar / ocultar senha ----------
+$('btn-ver-senha').addEventListener('click', () => {
+  const mostrar = $('senha').type === 'password';
+  $('senha').type = mostrar ? 'text' : 'password';
+  $('confirmar-senha').type = mostrar ? 'text' : 'password';
+});
+
+// ---------- Aviso se as senhas não conferem ----------
+$('confirmar-senha').addEventListener('input', () => {
+  const diferente = $('confirmar-senha').value !== $('senha').value;
+  $('aviso-senha').textContent = diferente ? 'As senhas não conferem.' : '';
+});
+
+// ---------- Buscar CEP (ViaCEP) ----------
+$('btn-cep-cliente').addEventListener('click', async () => {
+  const cep = valor('cep-cliente').replace(/\D/g, '');
+  if (cep.length !== 8) {
+    msgErro.textContent = 'Digite um CEP com 8 números.';
+    return;
+  }
+  msgErro.textContent = '';
+  try {
+    const resp = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const dados = await resp.json();
+    if (dados.erro) {
+      msgErro.textContent = 'CEP não encontrado.';
+      return;
+    }
+    $('cidade-cliente').value = dados.localidade;
+    $('estado-cliente').value = dados.uf;
+  } catch (e) {
+    msgErro.textContent = 'Não foi possível consultar o CEP agora.';
+  }
+});
+
+// ---------- Localização atual (GPS) ----------
+$('btn-gps').addEventListener('click', () => {
+  const aviso = $('aviso-gps');
+  aviso.style.color = '';
+
+  if (!navigator.geolocation) {
+    aviso.textContent = 'Seu navegador não suporta geolocalização.';
+    return;
+  }
+  aviso.textContent = 'Obtendo localização...';
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      $('lat-cliente').value = pos.coords.latitude.toFixed(6);
+      $('lng-cliente').value = pos.coords.longitude.toFixed(6);
+      $('btn-gps').classList.add('ativo');
+      aviso.style.color = '#065f46';
+      aviso.textContent = 'Localização capturada com sucesso.';
+    },
+    () => {
+      aviso.textContent = 'Não foi possível obter a localização. Verifique a permissão do navegador.';
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+});
+
+// ---------- Envio para a API ----------
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   msgErro.textContent = '';
   msgSucesso.style.display = 'none';
-
-  const valor = (id) => document.getElementById(id).value.trim();
 
   const dados = {
     nomeCompleto: valor('nome-completo'),
@@ -24,8 +90,8 @@ form.addEventListener('submit', async (e) => {
     dataNascimento: valor('data-nascimento'),
     email: valor('email-cliente'),
     telefone: valor('telefone-cliente'),
-    senha: document.getElementById('senha').value,
-    confirmarSenha: document.getElementById('confirmar-senha').value,
+    senha: $('senha').value,
+    confirmarSenha: $('confirmar-senha').value,
     cep: valor('cep-cliente'),
     cidade: valor('cidade-cliente'),
     estado: valor('estado-cliente'),
@@ -46,7 +112,6 @@ form.addEventListener('submit', async (e) => {
     const resultado = await resposta.json();
 
     if (!resposta.ok) {
-      // Mostra a mensagem principal + a lista de problemas, se houver
       const lista = resultado.detalhes ? ' ' + resultado.detalhes.join(' ') : '';
       msgErro.textContent = resultado.erro + lista;
       return;
@@ -55,8 +120,10 @@ form.addEventListener('submit', async (e) => {
     msgSucesso.textContent = '✅ ' + resultado.mensagem;
     msgSucesso.style.display = 'block';
     form.reset();
+    $('btn-gps').classList.remove('ativo');
+    $('aviso-gps').textContent = '';
   } catch (erro) {
-    msgErro.textContent = 'Não foi possível conectar ao servidor. Tente novamente.';
+    msgErro.textContent = 'Não foi possível conectar ao servidor. A API está rodando?';
   } finally {
     botao.disabled = false;
     botao.textContent = 'Criar Minha Conta';

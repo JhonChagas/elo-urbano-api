@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Cliente — Elo Urbano</title>
+  <link rel="stylesheet" href="cadastro.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="http://localhost:3000/api/clientes" class="logo">Elo<span>Urbano</span></a>
+    <a href="http://localhost:3000/api/clientes" class="nav-voltar">← Voltar ao site</a>
+  </nav>
+
+  <main class="pagina-form">
+
+    <!-- CABEÇALHO -->
+    <div class="form-header">
+      <p class="tag">Para consumidores</p>
+      <h1>Cadastro de <em>Cliente</em></h1>
+      <p>Crie sua conta para descobrir pequenos produtores e comerciantes da sua região.</p>
+    </div>
+
+    <form id="formCliente" class="form-principal" novalidate>
+
+      <!-- BLOCO 1: DADOS BÁSICOS -->
+      <div class="bloco">
+        <div class="bloco-titulo">
+          <span class="bloco-icone">🧾</span>
+          <div>
+            <h2>Dados Pessoais</h2>
+            <p>Informações básicas da sua conta</p>
+          </div>
+        </div>
+        <div class="campos-grid">
+          <div class="campo col-4">
+            <label for="nome-completo">Nome Completo <span class="obrigatorio">*</span></label>
+            <input id="nome-completo" type="text" placeholder="Seu nome completo" required />
+          </div>
+          <div class="campo col-2">
+            <label for="cpf">CPF <span class="opcional">(opcional)</span></label>
+            <input id="cpf" type="text" placeholder="000.000.000-00" maxlength="14" />
+          </div>
+          <div class="campo col-2">
+            <label for="data-nascimento">Data de Nascimento <span class="obrigatorio">*</span></label>
+            <input id="data-nascimento" type="date" required />
+          </div>
+          <div class="campo col-2">
+            <label for="email-cliente">E-mail <span class="obrigatorio">*</span></label>
+            <input id="email-cliente" type="email" placeholder="seu@email.com" required />
+          </div>
+          <div class="campo col-2">
+            <label for="telefone-cliente">Telefone / WhatsApp <span class="obrigatorio">*</span></label>
+            <input id="telefone-cliente" type="tel" placeholder="(00) 00000-0000" required />
+          </div>
+          <div class="campo col-2">
+            <label for="senha">Senha <span class="obrigatorio">*</span></label>
+            <div class="campo-com-botao">
+              <input id="senha" type="password" placeholder="Mínimo 8 caracteres" required minlength="8" />
+              <button type="button" id="btn-ver-senha" class="btn-buscar" aria-label="Mostrar senha">👁</button>
+            </div>
+          </div>
+          <div class="campo col-2">
+            <label for="confirmar-senha">Confirmar Senha <span class="obrigatorio">*</span></label>
+            <input id="confirmar-senha" type="password" placeholder="Repita a senha" required />
+            <span class="campo-aviso" id="aviso-senha"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOCO 2: LOCALIZAÇÃO -->
+      <div class="bloco">
+        <div class="bloco-titulo">
+          <span class="bloco-icone">📍</span>
+          <div>
+            <h2>Localização</h2>
+            <p>Usada para encontrar fornecedores próximos a você</p>
+          </div>
+        </div>
+        <div class="campos-grid">
+          <div class="campo col-1">
+            <label for="cep-cliente">CEP <span class="obrigatorio">*</span></label>
+            <div class="campo-com-botao">
+              <input id="cep-cliente" type="text" placeholder="00000-000" maxlength="9" required />
+              <button type="button" id="btn-cep-cliente" class="btn-buscar">Buscar</button>
+            </div>
+          </div>
+          <div class="campo col-2">
+            <label for="cidade-cliente">Cidade <span class="obrigatorio">*</span></label>
+            <input id="cidade-cliente" type="text" placeholder="Nome da cidade" required />
+          </div>
+          <div class="campo col-1">
+            <label for="estado-cliente">Estado <span class="obrigatorio">*</span></label>
+            <select id="estado-cliente" required>
+              <option value="">UF</option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+              <option selected>SP</option><option>SE</option><option>TO</option>
+            </select>
+          </div>
+
+          <!-- Botão GPS -->
+          <div class="campo col-4">
+            <label>Localização Atual (GPS)</label>
+            <button type="button" id="btn-gps" class="btn-gps">
+              <span>📡</span> Usar minha localização atual
+            </button>
+            <p class="campo-aviso" id="aviso-gps"></p>
+          </div>
+
+          <div class="campo col-2">
+            <label for="lat-cliente">Latitude <span class="opcional">(automático)</span></label>
+            <input id="lat-cliente" type="text" placeholder="Preenchido pelo GPS" readonly />
+          </div>
+          <div class="campo col-2">
+            <label for="lng-cliente">Longitude <span class="opcional">(automático)</span></label>
+            <input id="lng-cliente" type="text" placeholder="Preenchido pelo GPS" readonly />
+          </div>
+        </div>
+      </div>
+
+      <!-- AÇÕES -->
+      <div class="form-acoes">
+        <a href="https://elo-urbano.github.io/C-digos-Elo-Urbano/" class="btn-cancelar">Cancelar</a>
+        <button type="submit" class="btn-enviar">Criar Minha Conta</button>
+      </div>
+
+      <p id="sucessoCliente" class="mensagem-sucesso">✅ Conta criada com sucesso! Bem-vindo ao Elo Urbano.</p>
+
+    </form>
+
+  </main>
+
+  <footer>
+    <p>Elo<strong>Urbano</strong> · Projeto Integrador · <span id="year"></span></p>
+  </footer>
+
+  <script src="cadastro-cliente.js"></script>
+</body>
+</html>
