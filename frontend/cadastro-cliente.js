@@ -1,6 +1,6 @@
 const API_URL = ['localhost', '127.0.0.1'].includes(location.hostname)
   ? 'http://localhost:3000/api/clientes'
-  : 'https://SEU-APP.onrender.com/api/clientes'; // <- troque pelo endereço do Render
+  : 'https://elo-urbano-api.onrender.com/api/clientes';
 
 const $ = (id) => document.getElementById(id);
 const valor = (id) => $(id).value.trim();
@@ -103,6 +103,12 @@ form.addEventListener('submit', async (e) => {
   botao.disabled = true;
   botao.textContent = 'Enviando...';
 
+  // O plano gratuito do Render "dorme" sem uso: o 1º envio pode levar ~1 minuto
+  const avisoDemora = setTimeout(() => {
+    msgErro.style.color = '#5a7a65';
+    msgErro.textContent = 'O servidor está acordando (plano gratuito). Aguarde até 1 minuto...';
+  }, 4000);
+
   try {
     const resposta = await fetch(API_URL, {
       method: 'POST',
@@ -117,6 +123,7 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
+    msgErro.textContent = ''; // limpa o aviso de espera
     msgSucesso.textContent = '✅ ' + resultado.mensagem;
     msgSucesso.style.display = 'block';
     form.reset();
@@ -125,6 +132,8 @@ form.addEventListener('submit', async (e) => {
   } catch (erro) {
     msgErro.textContent = 'Não foi possível conectar ao servidor. A API está rodando?';
   } finally {
+    clearTimeout(avisoDemora);
+    msgErro.style.color = '';
     botao.disabled = false;
     botao.textContent = 'Criar Minha Conta';
   }
