@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const clienteRoutes = require('./routes/ClienteRoutes');
+const fornecedorRoutes = require('./routes/FornecedorRoutes');
 const { errorHandler, rotaNaoEncontrada } = require('./middlewares/errorHandler');
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json({ limit: '10kb' }));
 
 app.get('/api/saude', (req, res) => res.json({ status: 'ok', projeto: 'Elo Urbano' }));
 app.use('/api/clientes', clienteRoutes);
+app.use('/api/fornecedores', fornecedorRoutes);
 
 app.use(rotaNaoEncontrada);
 app.use(errorHandler);

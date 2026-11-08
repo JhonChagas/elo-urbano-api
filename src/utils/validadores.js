@@ -1,5 +1,3 @@
-// Funções puras de validação, reaproveitadas pelos Models.
-
 function somenteDigitos(valor) {
   return String(valor || '').replace(/\D/g, '');
 }
@@ -16,6 +14,31 @@ function cpfValido(cpf) {
   };
 
   return digito(9) === Number(n[9]) && digito(10) === Number(n[10]);
+}
+
+function somenteAlfanumericos(valor) {
+  return String(valor || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+}
+
+// CNPJ: aceita o formato numérico clássico e o novo formato alfanumérico
+// (12 caracteres letras/números + 2 dígitos verificadores).
+// Cada caractere vale (código ASCII - 48): os dígitos valem 0-9, as letras A-Z valem 17-42.
+function cnpjValido(cnpj) {
+  const n = somenteAlfanumericos(cnpj);
+  if (!/^[0-9A-Z]{12}[0-9]{2}$/.test(n) || /^(.)\1{13}$/.test(n)) return false;
+
+  const digito = (qtd) => {
+    const pesos =
+      qtd === 12
+        ? [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        : [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    let soma = 0;
+    for (let i = 0; i < qtd; i++) soma += (n.charCodeAt(i) - 48) * pesos[i];
+    const resto = soma % 11;
+    return resto < 2 ? 0 : 11 - resto;
+  };
+
+  return digito(12) === Number(n[12]) && digito(13) === Number(n[13]);
 }
 
 function emailValido(email) {
@@ -47,4 +70,4 @@ const ESTADOS = [
   'PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO',
 ];
 
-module.exports = { somenteDigitos, cpfValido, emailValido, dataValida, calcularIdade, ESTADOS };
+module.exports = { somenteDigitos, somenteAlfanumericos, cpfValido, cnpjValido, emailValido, dataValida, calcularIdade, ESTADOS };
