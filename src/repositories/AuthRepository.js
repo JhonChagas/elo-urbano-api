@@ -1,8 +1,4 @@
-// ===========================================================
-// REPOSITORY DE AUTENTICAÇÃO (Firebase Auth)
-// Isola o Firebase Auth para o Service não depender dele direto.
-// A senha é guardada (com hash) pelo próprio Firebase.
-// ===========================================================
+
 const { auth } = require('../config/conn');
 
 class AuthRepository {

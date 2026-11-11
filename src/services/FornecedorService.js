@@ -1,7 +1,7 @@
 const Fornecedor = require('../models/Fornecedor');
 const AppError = require('../errors/AppError');
 
-// Código do Firestore para "o documento já existe"
+
 const JA_EXISTE = 6;
 
 class FornecedorService {

@@ -1,16 +1,11 @@
-// ===========================================================
-// 3. REPOSITORY DE CLIENTE (Firestore)
-// Única camada que fala com a coleção "clientes".
-// Não tem regra de negócio: só grava e busca.
-// ===========================================================
+
 const { db } = require('../config/conn');
 const { FieldValue } = require('firebase-admin/firestore');
 
 const COLECAO = 'clientes';
 
 class ClienteRepository {
-  // O ID do documento é o mesmo uid do Firebase Auth,
-  // assim o login e o perfil ficam sempre ligados.
+  
   async salvar(cliente) {
     await db
       .collection(COLECAO)

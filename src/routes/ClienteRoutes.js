@@ -1,5 +1,4 @@
-// Aqui as camadas são "montadas" uma dentro da outra:
-// Repository -> Service -> Controller -> Rota
+
 const { Router } = require('express');
 const ClienteRepository = require('../repositories/ClienteRepository');
 const AuthRepository = require('../repositories/AuthRepository');

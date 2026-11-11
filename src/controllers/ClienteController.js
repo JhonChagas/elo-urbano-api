@@ -1,8 +1,4 @@
-// ===========================================================
-// 5. CONTROLLER DE CLIENTE
-// Recebe a requisição do formulário, chama o Service
-// e devolve a resposta HTTP. Não tem regra de negócio.
-// ===========================================================
+
 class ClienteController {
   constructor(clienteService) {
     this.clienteService = clienteService;
@@ -17,7 +13,7 @@ class ClienteController {
         cliente,
       });
     } catch (erro) {
-      next(erro); // o errorHandler decide o status e a mensagem
+      next(erro); 
     }
   };
 }

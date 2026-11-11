@@ -8,7 +8,7 @@ const valor = (id) => $(id).value.trim();
 const form = $('formCliente');
 const msgSucesso = $('sucessoCliente');
 
-// Área de erro geral (criada uma vez, antes dos botões)
+
 const msgErro = document.createElement('p');
 msgErro.className = 'campo-aviso';
 msgErro.style.cssText = 'text-align:center;margin-top:8px;';
@@ -103,7 +103,7 @@ form.addEventListener('submit', async (e) => {
   botao.disabled = true;
   botao.textContent = 'Enviando...';
 
-  // O plano gratuito do Render "dorme" sem uso: o 1º envio pode levar ~1 minuto
+  
   const avisoDemora = setTimeout(() => {
     msgErro.style.color = '#5a7a65';
     msgErro.textContent = 'O servidor está acordando (plano gratuito). Aguarde até 1 minuto...';
@@ -130,7 +130,7 @@ form.addEventListener('submit', async (e) => {
     $('btn-gps').classList.remove('ativo');
     $('aviso-gps').textContent = '';
   } catch (erro) {
-    msgErro.textContent = 'Não foi possível conectar ao servidor. A API está rodando?';
+    msgErro.textContent = 'Ocorreu um erro Inesperado. Tente novamente mais tarde.';
   } finally {
     clearTimeout(avisoDemora);
     msgErro.style.color = '';

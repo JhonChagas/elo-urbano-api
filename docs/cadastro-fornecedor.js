@@ -1,4 +1,3 @@
-// Em Live Server (localhost) usa a API local; online usa a do Render.
 const API_URL = ['localhost', '127.0.0.1'].includes(location.hostname)
   ? 'http://localhost:3000/api/fornecedores'
   : 'https://elo-urbano-api.onrender.com/api/fornecedores';
@@ -46,7 +45,7 @@ function limparMapa(aviso) {
   $('longitude').value = '';
 }
 
-// Procura as coordenadas do endereço no OpenStreetMap (Nominatim)
+
 async function buscarCoordenadas(consulta) {
   const url =
     'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=br&q=' +
@@ -111,7 +110,7 @@ $('btn-cep').addEventListener('click', async () => {
   }
 });
 
-// Quando o número é preenchido, a localização fica mais precisa
+
 $('numero').addEventListener('change', localizarNoMapa);
 
 // ---------- Envio para a API ----------
@@ -145,7 +144,7 @@ form.addEventListener('submit', async (e) => {
   botao.disabled = true;
   botao.textContent = 'Enviando...';
 
-  // O plano gratuito do Render "dorme" sem uso: o 1º envio pode levar ~1 minuto
+  
   const avisoDemora = setTimeout(() => {
     msgErro.style.color = '#5a7a65';
     msgErro.textContent = 'O servidor está acordando (plano gratuito). Aguarde até 1 minuto...';
@@ -171,7 +170,7 @@ form.addEventListener('submit', async (e) => {
     preencherData();
     limparMapa();
   } catch (erro) {
-    msgErro.textContent = 'Não foi possível conectar ao servidor. A API está rodando?';
+    msgErro.textContent = 'Ocorreu um erro Inesperado. Tente novamente mais tarde.';
   } finally {
     clearTimeout(avisoDemora);
     msgErro.style.color = '';

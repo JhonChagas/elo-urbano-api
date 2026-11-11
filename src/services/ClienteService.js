@@ -1,10 +1,4 @@
-// ===========================================================
-// 4. SERVICE DE CLIENTE (regras de negócio)
-// Orquestra o cadastro:
-//   1) valida os dados  2) aplica as regras do Elo Urbano
-//   3) cria o login no Firebase Auth  4) salva o perfil no Firestore
-// Se o passo 4 falhar, desfaz o passo 3 (não deixa login "órfão").
-// ===========================================================
+
 const Cliente = require('../models/Cliente');
 const AppError = require('../errors/AppError');
 const { calcularIdade } = require('../utils/validadores');
